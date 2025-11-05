@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>AES File Encrypt/Decrypt</title>
+    <link rel="stylesheet" href="./style.css" />
+    <style>
+      .preview-footer {
+        margin-top: 8px;
+        padding-top: 6px;
+        border-top: 1px dashed #ccc;
+        display: flex;
+        gap: 8px;
+        align-items: center;
+        flex-wrap: wrap;
+      }
+      .id-label {
+        color: #555;
+      }
+      .copy-btn {
+        padding: 2px 8px;
+        border: 1px solid #ccc;
+        background: #f8f8f8;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>AES File Encrypt/Decrypt</h1>
+
+    <!-- IMPORTANT: no <form>; buttons are type="button" -->
+    <section id="encryptSection">
+      <h3>Select document</h3>
+      <input id="fileInput" type="file" />
+      <input id="secretInput" type="password" placeholder="Secret key" />
+      <button id="encryptBtn" type="button">Encrypt & Upload</button>
+      <div id="preview"></div>
+      <div id="status" aria-live="polite"></div>
+    </section>
+
+    <section>
+      <h3>Decrypt by ID</h3>
+      <input id="decryptId" type="text" placeholder="Cipher ID (.bin)" />
+      <input id="decryptSecret" type="password" placeholder="Secret key" />
+      <button id="decryptBtn" type="button">Decrypt</button>
+      <div id="decryptedView"></div>
+    </section>
+
+    <script type="module" src="./script.js"></script>
+
+    <!-- Global guard: if any implicit submit fires, stop it -->
+    <script>
+      addEventListener(
+        "submit",
+        (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+        },
+        true
+      );
+      addEventListener(
+        "keydown",
+        (e) => {
+          // Prevent Enter from acting like submit on inputs inside sections
+          const target = e.target;
+          if (
+            e.key === "Enter" &&
+            target &&
+            target.closest &&
+            target.closest("section")
+          ) {
+            e.preventDefault();
+          }
+        },
+        true
+      );
+    </script>
+  </body>
+</html>
